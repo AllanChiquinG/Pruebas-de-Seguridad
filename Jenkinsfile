@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo '=== Generando SBOM con CycloneDX ==='
                 sh 'mkdir -p reports'
-                sh 'dotnet CycloneDX VulnerableApi.csproj -o reports/bom.xml'
+                sh 'dotnet CycloneDX VulnerableApi.csproj -o reports -fn bom.xml'
             }
         }
 
@@ -23,8 +23,8 @@ pipeline {
                 echo '=== Subiendo SBOM a Dependency Track ==='
                 withCredentials([string(credentialsId: 'dtrack-api-key', variable: 'DT_KEY')]) {
                     sh '''
-                        curl -X POST "http://dtrack-apiserver:8080/api/v1/bom" \
-                          -H "X-Api-Key: $DT_KEY" \
+                        curl -s -X POST "http://dtrack-apiserver:8080/api/v1/bom" \
+                          -H "X-Api-Key: ${DT_KEY}" \
                           -F "autoCreate=true" \
                           -F "projectName=VulnerableApi" \
                           -F "projectVersion=1.0" \
@@ -37,7 +37,7 @@ pipeline {
         stage('Wait for Analysis') {
             steps {
                 echo '=== Esperando analisis de Dependency Track ==='
-                sleep(time: 90, unit: 'SECONDS')
+                sleep(time: 120, unit: 'SECONDS')
             }
         }
 
@@ -46,13 +46,18 @@ pipeline {
                 echo '=== Exportando resultados ==='
                 withCredentials([string(credentialsId: 'dtrack-api-key', variable: 'DT_KEY')]) {
                     sh '''
-                        curl -X GET "http://dtrack-apiserver:8080/api/v1/vulnerability/project" \
-                          -H "X-Api-Key: $DT_KEY" \
+                        PROJECT_UUID=$(curl -s -H "X-Api-Key: ${DT_KEY}" \
+                          "http://dtrack-apiserver:8080/api/v1/project/lookup?name=VulnerableApi&version=1.0" | python3 -c "import sys,json; print(json.load(sys.stdin)['uuid'])")
+
+                        curl -s -X GET "http://dtrack-apiserver:8080/api/v1/vulnerability/project/${PROJECT_UUID}" \
+                          -H "X-Api-Key: ${DT_KEY}" \
                           -H "Accept: application/json" \
                           -o reports/vulnerabilities.json
+
+                        echo "Vulnerabilities for project ${PROJECT_UUID}:"
+                        cat reports/vulnerabilities.json
                     '''
                 }
-                sh 'cat reports/vulnerabilities.json'
             }
         }
 
