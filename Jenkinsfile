@@ -5,51 +5,23 @@ pipeline {
         DTRACK_URL = 'http://dtrack-apiserver:8080'
         DTRACK_API_KEY = credentials('dtrack-api-key')
         PROJECT_NAME = 'VulnerableApi'
+        PATH = "/usr/share/dotnet:/root/.dotnet/tools:${env:PATH}"
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                echo '=== Clonando repositorio ==='
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    extensions: [],
-                    userRemoteConfigs: [[url: 'https://github.com/AllanChiquinG/Pruebas-de-Seguridad.git']]
-                ])
-            }
-        }
-
         stage('Build .NET Project') {
             steps {
                 echo '=== Compilando proyecto .NET ==='
-                sh '''
-                    docker run --rm \
-                      -v "${WORKSPACE}:/src" \
-                      -w /src \
-                      mcr.microsoft.com/dotnet/sdk:6.0 \
-                      dotnet restore VulnerableApi.csproj
-                '''
-                sh '''
-                    docker run --rm \
-                      -v "${WORKSPACE}:/src" \
-                      -w /src \
-                      mcr.microsoft.com/dotnet/sdk:6.0 \
-                      dotnet publish VulnerableApi.csproj -c Release -o /app/publish
-                '''
+                sh 'dotnet restore VulnerableApi.csproj'
+                sh 'dotnet publish VulnerableApi.csproj -c Release -o ./publish'
             }
         }
 
         stage('Generate SBOM with CycloneDX') {
             steps {
                 echo '=== Generando SBOM con CycloneDX ==='
-                sh '''
-                    docker run --rm \
-                      -v "${WORKSPACE}:/src" \
-                      -w /src \
-                      cyclonedx/cyclonedx-dotnet \
-                      --output /src/bom.xml
-                '''
+                sh 'mkdir -p reports'
+                sh 'dotnet CycloneDX VulnerableApi.csproj --output reports/bom.xml'
             }
         }
 
@@ -59,11 +31,10 @@ pipeline {
                 sh '''
                     curl -X POST "${DTRACK_URL}/api/v1/bom" \
                       -H "X-Api-Key: ${DTRACK_API_KEY}" \
-                      -H "Content-Type: multipart/form-data" \
                       -F "autoCreate=true" \
                       -F "projectName=${PROJECT_NAME}" \
                       -F "projectVersion=1.0" \
-                      -F "bom=@bom.xml"
+                      -F "bom=@reports/bom.xml"
                 '''
             }
         }
@@ -78,14 +49,13 @@ pipeline {
         stage('Export Vulnerability Report') {
             steps {
                 echo '=== Exportando resultados ==='
-                sh 'mkdir -p reports'
                 sh '''
                     curl -X GET "${DTRACK_URL}/api/v1/vulnerability/project" \
                       -H "X-Api-Key: ${DTRACK_API_KEY}" \
-                      -H "Content-Type: application/json" \
+                      -H "Accept: application/json" \
                       -o reports/vulnerabilities.json
                 '''
-                sh 'cat reports/vulnerabilities.json | head -50'
+                sh 'cat reports/vulnerabilities.json'
             }
         }
 
@@ -96,7 +66,7 @@ pipeline {
                     docker run --rm \
                       -v "${WORKSPACE}:/data" \
                       pandoc/latex \
-                      /data/templates/informe.md \
+                      /data/informe.md \
                       -o /data/reports/informe_vulnerabilidades.pdf \
                       --pdf-engine=xelatex \
                       -V geometry:margin=1in
