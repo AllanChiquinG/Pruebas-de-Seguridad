@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Newtonsoft.Json 9.0.1 - CVE-2024-21907 (Stack Overflow) -->
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+
+    <!-- System.Text.RegularExpressions 4.3.0 - CVE-2019-0820 (ReDoS) -->
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
+
+    <!-- System.Net.Http 4.3.0 - CVE-2017-0248 (Security Bypass) -->
+    <PackageReference Include="System.Net.Http" Version="4.3.0" />
+
+    <!-- System.Diagnostics.Process 4.3.0 - CVE-2018-8292 (Security Bypass) -->
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
+
+    <!-- System.Xml.XmlDocument 4.3.0 - CVE-2018-8292 (XXE) -->
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
