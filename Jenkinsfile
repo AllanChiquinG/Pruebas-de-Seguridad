@@ -11,7 +11,12 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 echo '=== Clonando repositorio ==='
-                checkout scm
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/AllanChiquinG/Pruebas-de-Seguridad.git']]
+                ])
             }
         }
 
