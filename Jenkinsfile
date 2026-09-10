@@ -1,13 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DTRACK_URL = 'http://dtrack-apiserver:8080'
-        DTRACK_API_KEY = credentials('dtrack-api-key')
-        PROJECT_NAME = 'VulnerableApi'
-        PATH = "/usr/share/dotnet:/root/.dotnet/tools:${env:PATH}"
-    }
-
     stages {
         stage('Build .NET Project') {
             steps {
@@ -21,21 +14,23 @@ pipeline {
             steps {
                 echo '=== Generando SBOM con CycloneDX ==='
                 sh 'mkdir -p reports'
-                sh 'dotnet CycloneDX VulnerableApi.csproj --output reports/bom.xml'
+                sh 'dotnet CycloneDX VulnerableApi.csproj -o reports/bom.xml'
             }
         }
 
         stage('Upload SBOM to Dependency Track') {
             steps {
                 echo '=== Subiendo SBOM a Dependency Track ==='
-                sh '''
-                    curl -X POST "${DTRACK_URL}/api/v1/bom" \
-                      -H "X-Api-Key: ${DTRACK_API_KEY}" \
-                      -F "autoCreate=true" \
-                      -F "projectName=${PROJECT_NAME}" \
-                      -F "projectVersion=1.0" \
-                      -F "bom=@reports/bom.xml"
-                '''
+                withCredentials([string(credentialsId: 'dtrack-api-key', variable: 'DT_KEY')]) {
+                    sh '''
+                        curl -X POST "http://dtrack-apiserver:8080/api/v1/bom" \
+                          -H "X-Api-Key: $DT_KEY" \
+                          -F "autoCreate=true" \
+                          -F "projectName=VulnerableApi" \
+                          -F "projectVersion=1.0" \
+                          -F "bom=@reports/bom.xml"
+                    '''
+                }
             }
         }
 
@@ -49,12 +44,14 @@ pipeline {
         stage('Export Vulnerability Report') {
             steps {
                 echo '=== Exportando resultados ==='
-                sh '''
-                    curl -X GET "${DTRACK_URL}/api/v1/vulnerability/project" \
-                      -H "X-Api-Key: ${DTRACK_API_KEY}" \
-                      -H "Accept: application/json" \
-                      -o reports/vulnerabilities.json
-                '''
+                withCredentials([string(credentialsId: 'dtrack-api-key', variable: 'DT_KEY')]) {
+                    sh '''
+                        curl -X GET "http://dtrack-apiserver:8080/api/v1/vulnerability/project" \
+                          -H "X-Api-Key: $DT_KEY" \
+                          -H "Accept: application/json" \
+                          -o reports/vulnerabilities.json
+                    '''
+                }
                 sh 'cat reports/vulnerabilities.json'
             }
         }
@@ -76,7 +73,6 @@ pipeline {
     post {
         always {
             echo '=== Pipeline completado ==='
-            sh 'ls -la reports/ || true'
             archiveArtifacts artifacts: 'reports/*', allowEmptyArchive: true
         }
         success {
