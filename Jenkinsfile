@@ -63,11 +63,9 @@ pipeline {
             steps {
                 echo '=== Generando informe con Pandoc ==='
                 sh '''
-                    docker run --rm \
-                      -v "${WORKSPACE}:/data" \
-                      pandoc/latex \
-                      /data/informe.md \
-                      -o /data/reports/informe_vulnerabilidades.pdf \
+                    mkdir -p reports
+                    pandoc informe.md \
+                      -o reports/informe_vulnerabilidades.pdf \
                       --pdf-engine=xelatex \
                       -V geometry:margin=1in
                 '''
