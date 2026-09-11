@@ -86,17 +86,86 @@ gestion de vulnerabilidades, integrada en un pipeline de **Jenkins**.
 - **Impacto**: Posible lectura de archivos internos o SSRF.
 - **Remediacion**: Actualizar a .NET 6.0 runtime actualizado.
 
+### 6. System.Data.SqlClient 4.3.0
+
+- **CVE**: CVE-2017-8516 / CVE-2021-24374
+- **Severidad**: Critica / Alta
+- **CVSS**: 9.8 / 8.8
+- **Descripcion**: Vulnerabilidad de SQL Injection y Remote Code Execution
+  en componentes de acceso a datos SQL Server.
+- **Impacto**: Ejecucion remota de codigo y acceso no autorizado a datos.
+- **Remediacion**: Actualizar a System.Data.SqlClient >= 4.8.6 o Microsoft.Data.SqlClient >= 2.1.5
+
+### 7. System.Net.Security 4.3.0
+
+- **CVE**: CVE-2017-0248
+- **Severidad**: Alta
+- **CVSS**: 8.1
+- **Descripcion**: Bypass de autenticacion SSL/TLS en la validacion de
+  certificados de servidor.
+- **Impacto**: Posible intercepcion de trafico (Man-in-the-Middle).
+- **Remediacion**: Actualizar a .NET 6.0 runtime actualizado.
+
+### 8. System.DirectoryServices 4.3.0
+
+- **CVE**: CVE-2018-8292
+- **Severidad**: Alta
+- **CVSS**: 7.5
+- **Descripcion**: Bypass de seguridad en la autenticacion LDAP.
+- **Impacto**: Acceso no autorizado a directorios LDAP.
+- **Remediacion**: Actualizar a .NET 6.0 runtime actualizado.
+
+### 9. System.Drawing.Common 4.3.0
+
+- **CVE**: CVE-2021-24112
+- **Severidad**: Critica
+- **CVSS**: 9.8
+- **Descripcion**: Vulnerabilidad de Remote Code Execution en el procesamiento
+  de imagenes a traves de GDI+.
+- **Impacto**: Ejecucion remota de codigo con privilegios del servidor.
+- **Remediacion**: Actualizar a System.Drawing.Common >= 7.0.0 o migrar a libgdiplus
+
+### 10. System.Configuration.ConfigurationManager 4.3.0
+
+- **CVE**: CVE-2024-30043
+- **Severidad**: Media
+- **CVSS**: 5.5
+- **Descripcion**: Vulnerabilidad de elevacion de privilegios en la
+  configuracion de la aplicacion.
+- **Impacto**: Acceso no autorizado a datos de configuracion.
+- **Remediacion**: Actualizar a >= 8.0.0
+
+### 11. System.Security.Cryptography.Xml 4.3.0
+
+- **CVE**: CVE-2024-30044
+- **Severidad**: Alta
+- **CVSS**: 7.8
+- **Descripcion**: Vulnerabilidad de Remote Code Execution en la
+  validacion de firmas XML.
+- **Impacto**: Ejecucion remota de codigo a traves de XML malicioso.
+- **Remediacion**: Actualizar a >= 8.0.0
+
+### 12. Microsoft.AspNetCore.Mvc.NewtonsoftJson 3.1.0
+
+- **CVE**: CVE-2024-21315 / CVE-2022-38258
+- **Severidad**: Media
+- **CVSS**: 6.5
+- **Descripcion**: Vulnerabilidad de Denial of Service en la serializacion
+  JSON del framework ASP.NET Core.
+- **Impacto**: Denegacion de servicio en la API.
+- **Remediacion**: Actualizar a >= 8.0.0
+
 \newpage
 
 # Resumen por Severidad
 
 | Severidad | Cantidad |
 |-----------|----------|
-| Critica   | 0        |
-| Alta      | 3        |
-| Media     | 2        |
+| Critica   | 2        |
+| Alta      | 6        |
+| Media     | 3        |
 | Baja      | 0        |
-| **Total** | **5**    |
+| **Total** | **12**   |
 
 \newpage
 

@@ -21,6 +21,30 @@
 
     <!-- System.Xml.XmlDocument 4.3.0 - CVE-2018-8292 (XXE) -->
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+
+    <!-- System.Data.SqlClient 4.3.0 - CVE-2017-8516 (Remote Code Execution) -->
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.0" />
+
+    <!-- System.Net.Security 4.3.0 - CVE-2017-0248 (Authentication Bypass) -->
+    <PackageReference Include="System.Net.Security" Version="4.3.0" />
+
+    <!-- System.DirectoryServices 4.3.0 - CVE-2018-8292 (Security Feature Bypass) -->
+    <PackageReference Include="System.DirectoryServices" Version="4.3.0" />
+
+    <!-- System.Drawing.Common 4.3.0 - CVE-2021-24112 (Remote Code Execution) -->
+    <PackageReference Include="System.Drawing.Common" Version="4.3.0" />
+
+    <!-- System.Configuration.ConfigurationManager 4.3.0 - CVE-2024-30043 (Privilege Escalation) -->
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.3.0" />
+
+    <!-- System.Security.Cryptography.Xml 4.3.0 - CVE-2024-30044 (Remote Code Execution) -->
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="4.3.0" />
+
+    <!-- System.Text.Encoding.CodePages 4.3.0 - CVE-2019-0820 (Related DoS) -->
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.3.0" />
+
+    <!-- Microsoft.AspNetCore.Mvc.NewtonsoftJson 3.1.0 - Multiple CVEs -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
   </ItemGroup>
 
 </Project>
