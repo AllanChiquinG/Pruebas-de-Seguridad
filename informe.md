@@ -145,15 +145,15 @@ gestion de vulnerabilidades, integrada en un pipeline de **Jenkins**.
 - **Impacto**: Ejecucion remota de codigo a traves de XML malicioso.
 - **Remediacion**: Actualizar a >= 8.0.0
 
-### 12. Microsoft.AspNetCore.Mvc.NewtonsoftJson 3.1.0
+### 12. System.Text.Encoding.CodePages 4.3.0
 
-- **CVE**: CVE-2024-21315 / CVE-2022-38258
-- **Severidad**: Media
-- **CVSS**: 6.5
-- **Descripcion**: Vulnerabilidad de Denial of Service en la serializacion
-  JSON del framework ASP.NET Core.
-- **Impacto**: Denegacion de servicio en la API.
-- **Remediacion**: Actualizar a >= 8.0.0
+- **CVE**: CVE-2019-0820
+- **Severidad**: Alta
+- **CVSS**: 7.5
+- **Descripcion**: Vulnerabilidad de Denial of Service en el parser de
+  codificaciones de texto del framework .NET.
+- **Impacto**: Denegacion de servicio por consumo de recursos.
+- **Remediacion**: Actualizar a .NET 6.0 runtime actualizado.
 
 \newpage
 
@@ -162,7 +162,7 @@ gestion de vulnerabilidades, integrada en un pipeline de **Jenkins**.
 | Severidad | Cantidad |
 |-----------|----------|
 | Critica   | 2        |
-| Alta      | 6        |
+| Alta      | 7        |
 | Media     | 3        |
 | Baja      | 0        |
 | **Total** | **12**   |

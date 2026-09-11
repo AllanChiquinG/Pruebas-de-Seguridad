@@ -43,8 +43,6 @@
     <!-- System.Text.Encoding.CodePages 4.3.0 - CVE-2019-0820 (Related DoS) -->
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.3.0" />
 
-    <!-- Microsoft.AspNetCore.Mvc.NewtonsoftJson 3.1.0 - Multiple CVEs -->
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
   </ItemGroup>
 
 </Project>

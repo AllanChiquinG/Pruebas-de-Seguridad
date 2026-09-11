@@ -43,7 +43,7 @@ El proyecto `VulnerableApi` incluye intencionalmente 12 paquetes NuGet con vulne
 | `System.Drawing.Common` | 4.3.0 | CVE-2021-24112 | Critica | 9.8 | Remote Code Execution |
 | `System.Configuration.ConfigurationManager` | 4.3.0 | CVE-2024-30043 | Media | 5.5 | Elevacion de privilegios |
 | `System.Security.Cryptography.Xml` | 4.3.0 | CVE-2024-30044 | Alta | 7.8 | Remote Code Execution |
-| `Microsoft.AspNetCore.Mvc.NewtonsoftJson` | 3.1.0 | CVE-2024-21315 | Media | 6.5 | Denial of Service |
+| `System.Text.Encoding.CodePages` | 4.3.0 | CVE-2019-0820 | Alta | 7.5 | Denial of Service |
 
 ## Pipeline (Jenkinsfile)
 
