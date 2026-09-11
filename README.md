@@ -28,15 +28,22 @@ Todos los contenedores comparten la red Docker `auditoria_net`.
 
 ## Dependencias Vulnerables
 
-El proyecto `VulnerableApi` incluye intencionalmente 5 paquetes NuGet con vulnerabilidades conocidas:
+El proyecto `VulnerableApi` incluye intencionalmente 12 paquetes NuGet con vulnerabilidades conocidas:
 
-| Paquete | Version | CVE | Severidad | CVSS | Tipo de Vulnerabilidad |
-|---------|---------|-----|-----------|------|----------------------|
+| Paquete | Version | CVE(s) | Severidad | CVSS | Tipo de Vulnerabilidad |
+|---------|---------|--------|-----------|------|----------------------|
 | `Newtonsoft.Json` | 9.0.1 | CVE-2024-21907 | Alta | 7.5 | Stack Overflow (DoS) |
 | `System.Text.RegularExpressions` | 4.3.0 | CVE-2019-0820 | Alta | 7.5 | ReDoS |
 | `System.Net.Http` | 4.3.0 | CVE-2017-0248 | Alta | 8.1 | Bypass SSL (MitM) |
 | `System.Diagnostics.Process` | 4.3.0 | CVE-2018-8292 | Media | 5.3 | Elevacion de privilegios |
 | `System.Xml.XmlDocument` | 4.3.0 | CVE-2018-8292 | Media | 5.3 | XML External Entity (XXE) |
+| `System.Data.SqlClient` | 4.3.0 | CVE-2017-8516 | Critica | 9.8 | SQL Injection / RCE |
+| `System.Net.Security` | 4.3.0 | CVE-2017-0248 | Alta | 8.1 | Bypass autenticacion SSL |
+| `System.DirectoryServices` | 4.3.0 | CVE-2018-8292 | Alta | 7.5 | Bypass LDAP |
+| `System.Drawing.Common` | 4.3.0 | CVE-2021-24112 | Critica | 9.8 | Remote Code Execution |
+| `System.Configuration.ConfigurationManager` | 4.3.0 | CVE-2024-30043 | Media | 5.5 | Elevacion de privilegios |
+| `System.Security.Cryptography.Xml` | 4.3.0 | CVE-2024-30044 | Alta | 7.8 | Remote Code Execution |
+| `Microsoft.AspNetCore.Mvc.NewtonsoftJson` | 3.1.0 | CVE-2024-21315 | Media | 6.5 | Denial of Service |
 
 ## Pipeline (Jenkinsfile)
 
